@@ -25,7 +25,6 @@ func MD5(string: String) -> String {
 }
 
 extension StringProtocol {
-
     func after(substring: String) -> String {
         if let range = self.range(of: substring) {
             return String(self[range.upperBound..<self.endIndex])
@@ -143,7 +142,7 @@ func digest(username: String,
 }
 
 
-func makeDigestQuery(app: Application, request: Request, uri: URI, user: String, pw: String) async -> String {
+public func makeDigestQuery(app: Application, request: Request, uri: URI, user: String, pw: String) async -> String {
 //    app.logger.info("making first request to obtain nonce, qop, opaque and algorithm ")
     guard let queryResult = try? await request.client.get(uri) else {
         return "could not run query"
@@ -172,7 +171,7 @@ func makeDigestQuery(app: Application, request: Request, uri: URI, user: String,
 }
 
 
-func digestResponder(req: Request, userPassword: (String?) -> String?, responder: (Request) async throws -> Response) async throws -> Response {
+public func digestResponder(req: Request, userPassword: (String?) -> String?, responder: (Request) async throws -> Response) async throws -> Response {
     let realm = "localhost/testAuthAsServer"
     print("headers", req.headers)
     if req.headers.first(name: "Authorization") == nil {
